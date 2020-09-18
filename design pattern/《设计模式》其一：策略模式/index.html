@@ -303,7 +303,14 @@
 <p>C++程序员可能在想，这个简单啊，最基本的代码复用方式不就是攒个新函数出来吗？我对三种实现攒三个新函数，然后把函数指针按需传给不同的子类不就好了？</p>
 <p>但是不是啥编程语言都能直接操作函数指针的，何况《设计模式》这本书是针对java写的，这太不OO了，I‘m angry！</p>
 <p>其实我们有更OO的实现方式：</p>
-<div class="highlight"><pre><span></span><code>public interface FBehavior {  public void f();}public abstract class Base {  FBehavior fb;  public void performF() {    fb.f();   }}
+<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">FBehavior</span> <span class="p">{</span>  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">f</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Base</span> <span class="p">{</span>  
+    <span class="n">FBehavior</span> <span class="n">fb</span><span class="p">;</span>  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performF</span><span class="p">()</span> <span class="p">{</span>    <span class="n">fb</span><span class="p">.</span><span class="na">f</span><span class="p">();</span>   <span class="p">}</span>
+<span class="p">};</span>
 </code></pre></div>
 
 <p>对于不同的f的实现，我们只需要implement FBehavior弄出不同的class就好了。在Base的子类的构造函数中，我们按照需要构造不同的实现了FBehavior的class，即可达到策略模式的目的。</p>
