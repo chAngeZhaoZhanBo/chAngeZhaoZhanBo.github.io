@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>cpp - chAnge-blog</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "cpp";
+    var mkdocs_page_input_path = "cpp\\\u6d45\u8c08C++\u4f20\u53c2\u7684\u6548\u7387\u95ee\u9898.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> chAnge-blog</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../about/">About</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">cpp</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">传值</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">chAnge-blog</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>cpp</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="c">浅谈C++传参的效率问题</h1>
+<p><strong>本文的主要观点来自于《Effective Modern C++》</strong></p>
+<p>假设我们有一个类叫做Student，他有一个<code>std::string</code>类型的成员变量name，和一个<code>std::vector</code> 类型的成员变量ranks记录ta历次考试的名次，那么这个类大概长成这个样子：</p>
+<pre><code>class Student {
+    std::string name;
+    std::vector&lt;unsigned&gt; ranks;
+};
+</code></pre>
+
+<p>之后，你很可能会想为其设计一个构造函数。</p>
+<h2 id="_1">传值</h2>
+<p>如果你是一个刚学C++不久的萌新，你可能写出这样的代码：</p>
+<pre><code>class Student {
+    std::string name;
+    std::vector&lt;unsigned&gt; ranks;
+public:
+    Student(std::string _name, std::vector&lt;unsigned&gt; _ranks) : name(_name), ranks(_ranks){}
+};
+</code></pre>
+
+<p>如果你的第一反应的确是这样的实现，或者你干脆不知道上面的构造函数后面怎么还会有冒号的，脑海里充斥着“这是啥呀，咋回事呀”，建议还是先补一补C++基础（摊手）</p>
+<p>这个实现的问题在于<code>_name</code>与<code>_ranks</code>是<strong>传值</strong>进来的，仅仅在传递参数的时候就（可能）做了一次copy，而在真正的初始化成员变量时又做了一次copy，简直慢的难以忍受（什么？你说你不追求这种“鸡毛蒜皮”的效率？那你写个毛线的C++啊，Meyers老师的话送给你</p>
+<p><img alt="" src="C:\Users\chAnge\Desktop\640.png" /></p>
+<h1 id="const">传const左值引用</h1>
+<p>如果你是一个生活在C++11之前时代的程序员，则你的实现会是下面这样，使用const引用</p>
+<pre><code>class Student {
+    std::string name;
+    std::vector&lt;unsigned&gt; ranks;
+public:
+    Student(const std::string&amp; _name, const std::vector&lt;unsigned&gt;&amp; _ranks) : name(_name), ranks(_ranks){}
+};
+</code></pre>
+
+<p>比起之前完全传值的“萌新”实现，你每个成员变量都节省了一次copy操作，可喜可贺，但是，在modern C++眼里，这样还是太慢了</p>
+<h2 id="const_1">组合传const左值引用或右值引用</h2>
+<p>在Modern C++的时代，大家对于必然会存在的copy非常的不满，于是，右值引用和<code>std::move</code>那一套就降临了，它解救了万千C++程序员于水火之中！（所有C++程序员都在大喊：“还不够快！还能更快！快！“</p>
+<p>本文无意详细解释何为右值，何为右值引用，以及std::move在干什么。</p>
+<p>你可简单将右值理解为“在这人世间匆匆来临又匆匆逝去的可怜虫”，如下面代码第二行括号内的部分就是一个右值，它只是一个临时存在的东西，它在这里的唯一存在意义就是提供值用于初始化s2，在s2初始化完毕后，你再也找不到它了（当然，我个人建议如果你真的不知道什么是右值的话，还是去查一下吧。一个简单的口诀是：一切有“名字”的东西，都不是右值。甚至有名字的右值引用也不是右值而是左值，这个口诀会有一些例外，但一般来说是很实用的）</p>
+<pre><code>std::string s1 = &quot;fuck&quot;;
+std::string s2 = (s1 + &quot; you!&quot;);
+</code></pre>
+
+<p>而右值引用则是可以绑定在右值上的引用（当然const左值引用也是可以的），写作这个样子：<code>std::string&amp;&amp;</code>，很简单，多了一个&amp;号而已。</p>
+<p>根据函数重载的规则，右值引用比起const左值引用对右值有更强的亲和力，就像下面的代码所说的那样</p>
+<pre><code>void fuck(const std::string&amp; s); //const left-value reference
+
+void fuck(std::string&amp;&amp; s);//right-value reference
+
+std::string you = &quot;you&quot;;
+fuck(you);//call const left-value reference version
+fuck(you + &quot;!&quot;); //call right-value reference version
+</code></pre>
+
+<p>因为右值的特点是“转眼就会死的”，所以当你把它传进构造函数用于构造成员变量时，<strong>你把它骨灰都给扬了也是可以的</strong></p>
+<p>具体来讲，如果你用一个右值<code>vector</code>来初始化<code>vector</code>变量，你可以不做任何元素层面的拷贝，而是直接把右值<code>vector</code>里面用于管理资源的指针的值赋给被初始化的<code>vector</code>里的指针，被初始化对象就转瞬间获得了所有的元素，之后右值<code>vector</code>再放弃所有元素（将指针置为空）即可。这种行为我们称之为move</p>
+<p>很显然，move要比copy要快得多。但是因为move行为对用作初始化的对象的破坏性，我们不能随便用它。要么直接用在一个右值上用，要么我们要显式地告诉编译器，我们愿意让一个左值的骨灰也被扬了以换取效率，这便是<code>std::move</code>所做的，如果<code>vector v</code>是 左值，那么<code>std::move(v)</code>这个表达式便是一个右值</p>
+<p>那么对于上文中Student的构造函数，我们可以做出这样的扩展：</p>
+<pre><code>class Student {
+    std::string name;
+    std::vector&lt;unsigned&gt; ranks;
+public:
+    Student(const std::string&amp; _name, const std::vector&lt;unsigned&gt;&amp; _ranks) : name(_name), ranks(_ranks){}
+    Student(const std::string&amp; _name, std::vector&lt;unsigned&gt;&amp;&amp; _ranks) : name(_name), ranks(std::move(_ranks)){}
+    Student(std::string&amp;&amp; _name, const std::vector&lt;unsigned&gt;&amp; _ranks) : name(std::move(_name)), ranks(_ranks){}
+    Student(std::string&amp; _name, std::vector&lt;unsigned&gt;&amp; _ranks) : name(std::move(_name)),ranks(std::move(_ranks)){}
+};
+</code></pre>
+
+<p>非常的完美，不是吗？极致的高效率！</p>
+<p>可惜这一方案也有致命的缺点：参数的个数越多，需要重载的种类就越多，而且甚至是指数级的数量关系。一旦参数数量较大，你要维护的重载函数的数量会多到难以忍受。</p>
+<p><strong>模版+完美转</strong><strong>发</strong></p>
+<pre><code>class Student {
+    std::string name;
+    std::vector&lt;unsigned&gt; ranks;
+public:
+    template&lt;typename S, typename V&gt;
+    Student(S&amp;&amp; _name, V&amp;&amp; _ranks) : name(std::forward&lt;S&gt;(_name)), ranks(std::forward&lt;V&gt;(_ranks)){}
+};
+</code></pre>
+
+<p>熟悉模版和完美转发的人很快就能写出上面这样的代码。</p>
+<p>要想看懂上面的代码，需要模版类型推断、universial reference以及<code>std::forward</code>也即完美转发的相关知识，这里不给出详细解释。大概意思是说，完美转发会让实参是左值时转发给成员变量构造函数的也是左值，实参是右值时转发给成员变量构造函数的也是右值，也即是说，效率与上一节完全一致。</p>
+<p>看上去非常的完美，不是吗？很遗憾，仍然不是，这种方法有如下缺点：</p>
+<ul>
+<li>
+<p>object code冗余：模版函数的实现一般在头函数中。而模版实际做的是代码生成，它不只会生成上一节中的四种函数，对于_name传进来的实参是<code>const char*</code>等可以转换成<code>std::string</code>的类型的情况，模版也会为之生成一个版本的函数，这些生成的函数一般都在头文件中，导致object code变得很臃肿</p>
+</li>
+<li>
+<p>non-deduction context：<code>Student student("Tom", {1, 2, 3});</code>将无法通过编译，因为<code>{1, 2, 3}</code>的类型不能被模版直接推断；而用上一章节的方法是可以t通过编译的</p>
+</li>
+<li>
+<p>报错信息泥石流：如果你有幸见识过因为模版导致的编译错误信息，你就知道那是多么恐怖的事情，很有可能几行代码就能产生一堆篇幅足以当政治课论文的报错信息（笑）</p>
+</li>
+<li>
+<p>universial refercence过于贪婪：如果你想给ranks加一个默认值，比如没有成绩，也就是空的vector，那么你将遭遇非常恐怖的事情：universial reference是实在太猛了，绝大多数函数在重载竞争的时候都干不过它，只有”正正好好“的匹配才能胜过它。这会导致下面代码里的问题，显然student2是想要调用Student的默认复制构造函数，但因为student不是const的左值，因此不算“正正好好”，就会被univerisial reference抢走，然后boom！</p>
+</li>
+</ul>
+<p>```
+  class Student {
+      std::string name;
+      std::vector<unsigned> ranks;
+  public:
+      Student(const Student&amp; student) = default;
+      template<typename S, typename V = std::vector\<unsigned>>
+      Student(S&amp;&amp; _name, V&amp;&amp; _ranks = std::vector<unsigned>{}) : name(std::forward<S>(_name)), ranks(std::forward<V>(_ranks)){}
+  };</p>
+<p>Student student("Tom", vector<unsigned>{1 ,2, 3});
+  Student student2{student};  //Will call universial reference version!!!
+  ```</p>
+<h2 id="_2">轮回？还是传值？</h2>
+<p>上面的方法总有这样和那样的苦恼，于是，有人又想出了下面这种方案</p>
+<pre><code>class Student {
+ std::string name;
+ std::vector&lt;unsigned&gt; ranks;
+public:
+ Student(std::string _name, std::vector&lt;unsigned&gt; _ranks) : name(std::move(_name)), ranks(std::move(_ranks)){}
+};
+</code></pre>
+
+<p>这种方案的效率比起之前两节的版本稍低一点：无论实参是左值还是右值，每个参数都会多做一次move。</p>
+<p>具体而言：</p>
+<ul>
+<li>左值实参：先copy到形参，再做一次move</li>
+<li>右值实参：先move到形参，再做一次move</li>
+</ul>
+<p>但是这会避免上面章节中提到的种种问题，而move往往效率是很高的，看上去我们做了一次完美的trade-off：一点点性能损失，带来了清爽的代码体验。</p>
+<p>然而……C++里真的有完美可言吗？这个方法也有一些问题！</p>
+<ul>
+<li>不是所有的move都很快：尽管我们接触到的许多类型的move都很快，但也有一些类型的move操作并不快（比如<code>std::array</code>)，你需要清楚地了解参数类型的move操作的效率，否则可能带来严重的性能问题</li>
+<li>不是所有的类型都可以copy：这个方法预设了左值实参传进来时会先做一次copy，但有一些类型是不允许copy的(比如<code>std::unique_ptr</code>)</li>
+<li>有时你要写的不是构造函数，而是类似于一个<code>std::string str</code> 给<code>push_back</code>进<code>std::vector</code>的逻辑，而一个很常见的需求是只有某个谓词pred对于str成立时(也即<code>pred(str)==true</code>)才进行push_back，如果不成立则不做任何事情。如果你传引用进来，pred没能成立的话，你只是挥挥手不带走一片云彩；但如果你传值进来，pred即便没能成立，你也需要对str做析构，而str的析构涉及deallocate。如果统计上pred不成立的概率较高，则也会带来不可忽视的性能问题</li>
+</ul>
+<p>综上所述，不存在一种完美的方案解决传参的效率问题。你需要对你编码所涉及的各种类型的行为都很熟悉，然后综合上述几种方式，为其设计最佳的方案，这很难，而且很耗精力。</p>
+<p>因此，我的意见是，不要写C++了（</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../../about/" class="btn btn-neutral" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../../about/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
