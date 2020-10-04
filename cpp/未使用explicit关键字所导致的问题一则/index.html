@@ -378,7 +378,7 @@
 <p>问题在于，我对于<code>Double2UpDown</code>的定义是放在类定义内的。而对<code>operator+(int n, const UpDown&amp; updown)</code>的定义是放在类定义之后的，所以<code>Double2UpDown</code>“看不到”这个重载。</p>
 <p>既然看不到我需要用的重载，编译器就会去寻找其他可行重载，随后编译器会发现<code>UpDown</code>类可以转换为<code>double</code>，于是它将<code>UpDown</code>类自动地隐式地转换为了<code>double</code>，与int做加法，得到的结果也是double。</p>
 <p>但由于<code>Double2UpDown</code>返回值类型是<code>UpDown</code>，则又会隐式地用得到的<code>double</code>去构造<code>UpDown</code>，又会调用同样的<code>Double2UpDown</code>逻辑，则进入了死循环。</p>
-<p>此时explicit关键字的作用就很明显了：避免我们不喜欢的隐式转换自动发生引起的奇怪问题。</p>
+<p>此时explicit关键字的作用就很明显了：避免我们不喜欢的隐式转换自动发生引起的奇怪问题，尽可能让问题尽早地暴露在编译阶段</p>
                 
               
               
