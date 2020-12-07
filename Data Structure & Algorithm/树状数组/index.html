@@ -1,0 +1,799 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.12">
+    
+    
+      
+        <title>树状数组 - chAnge-blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4dd2dd8d.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.6a5ad368.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2094f3">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=:300,400,400i,700%7CFira+Code&display=fallback">
+        <style>body,input{font-family:"",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Fira Code",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="chAnge-blog" class="md-header-nav__button md-logo" aria-label="chAnge-blog">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            chAnge-blog
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              树状数组
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="chAnge-blog" class="md-nav__button md-logo" aria-label="chAnge-blog">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    chAnge-blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      C++ Program Design 2020
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="C++ Program Design 2020" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        C++ Program Design 2020
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../C%2B%2B%20Program%20Design%202020/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/" title="新手上路" class="md-nav__link">
+      新手上路
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      cpp
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="cpp" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        cpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/%E6%B5%85%E8%B0%88C%2B%2B%E4%BC%A0%E5%8F%82%E7%9A%84%E6%95%88%E7%8E%87%E9%97%AE%E9%A2%98/" title="浅谈C++传参的效率问题" class="md-nav__link">
+      浅谈C++传参的效率问题
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/%E6%9C%AA%E4%BD%BF%E7%94%A8explicit%E5%85%B3%E9%94%AE%E5%AD%97%E6%89%80%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%80%E5%88%99/" title="未使用explicit关键字所导致的问题一则" class="md-nav__link">
+      未使用explicit关键字所导致的问题一则
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      design pattern
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="design pattern" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        design pattern
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../design%20pattern/%E3%80%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%85%B6%E4%B8%80%EF%BC%9A%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" title="《设计模式》其一：策略模式" class="md-nav__link">
+      《设计模式》其一：策略模式
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../design%20pattern/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%B3%A8%E5%86%8C%E5%AE%9E%E7%8E%B0/" title="工厂模式的注册实现" class="md-nav__link">
+      工厂模式的注册实现
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Data Structure & Algorithm
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Data Structure & Algorithm" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Data Structure & Algorithm
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        树状数组
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" title="树状数组" class="md-nav__link md-nav__link--active">
+      树状数组
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 复杂度的根源
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 复杂度的根源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 分段预处理前缀和
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 本质：分段与组合
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 明确目标：寻找好的分段方式
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 遇事不决，考虑归纳法二分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pre" class="md-nav__link">
+    4. pre的计算
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5.依赖关系的确定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6. 前缀和计算、更新和预处理构造
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 前缀和计算、更新和预处理构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    6.1 前缀和计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    6.2 更新
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    6.3 预处理创建树状数组
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 复杂度的根源
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 复杂度的根源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 分段预处理前缀和
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 本质：分段与组合
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 明确目标：寻找好的分段方式
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 遇事不决，考虑归纳法二分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pre" class="md-nav__link">
+    4. pre的计算
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5.依赖关系的确定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6. 前缀和计算、更新和预处理构造
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 前缀和计算、更新和预处理构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    6.1 前缀和计算
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    6.2 更新
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    6.3 预处理创建树状数组
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="_1">树状数组<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<h2 id="1">1. 场景<a class="headerlink" href="#1" title="Permanent link">#</a></h2>
+<p>求一个数组的子区间和是常见的需求，由于任意子区间和都可以转换为两个前缀和的差，因此我们只需要考虑求数组前缀和的问题即可。本文中前i项的和（包括第i项）被记作preSum(i)</p>
+<p>如果数组A始终保持不变，则我们可以简单地预处理一次，将所有的前缀和都算一遍，存放到一个新的数组S中即可，这样求前缀和的时间复杂度就是O(1)的了</p>
+<p><span><span class="MathJax_Preview">S[i]=\sum_{j=0}^iA[j]</span><script type="math/tex">S[i]=\sum_{j=0}^iA[j]</script></span></p>
+<p>不幸的是，一旦数组A会发生变化，则S也要随之变化。如果A[i]的值发生了改变，则S[i]、S[i+1]直到S[N]都需要改变，因此，修改导致的时间开销是O(N)的，而如果修改操作很频繁，则这将是让人难以接受的时间复杂度。</p>
+<h2 id="2">2. 复杂度的根源<a class="headerlink" href="#2" title="Permanent link">#</a></h2>
+<p>之所以修改A[i]会带来这么大的开销，是因为S中依赖A[i]的项太多了：S中所有下标不小于i的项全部依赖于A[i]</p>
+<p>因此，一个很自然的思路就是换一种预处理方式，让预处理得到的数组（下文仍称其为S）中依赖A[i]的项少一些。</p>
+<p>我们可以先提出一个非常naive的方式，尽管这个方式的实际意义不大，但能够帮我们理清思路。</p>
+<h3 id="21">2.1 分段预处理前缀和<a class="headerlink" href="#21" title="Permanent link">#</a></h3>
+<p>给定一个预设的正整数K，将长度为N的数组A均分为K段，得到K个子数组，对K个子数组分别求前缀和。</p>
+<p>比如N=6，K=2的情况下，则有</p>
+<p>S[0] = A[0]</p>
+<p>S[1] = A[0] + A[1]</p>
+<p>S[2] = A[0] + A[1] + A[2]</p>
+<p>S[3] = A[3]</p>
+<p>S[4] = A[3] + A[4]</p>
+<p>S[5] = A[3] + A[4] + A[5]</p>
+<p>通过这种方式，A[i]必定属于且仅属于某一个子数组，因此它所影响的S中的项也只有与这个子数组相关的项，则修改A[i]所导致的时间复杂度变为了O(N/K)</p>
+<p>但这不是没有代价的，当你需要计算前缀和的时候，如果i在第k个子数组里，则你先需要把前k-1个子数组的前缀和累加才能得到最终结果，也即是说计算前缀和的时间复杂度变为了O(K)</p>
+<h3 id="22">2.2 本质：分段与组合<a class="headerlink" href="#22" title="Permanent link">#</a></h3>
+<p>刚才的分析中可以看出，为了降低修改复杂度，我们把数组划分为几个互相不干涉的组，让S中受A[i]所影响的项变少。但这也会导致计算前缀和的开销升高，你需要将多个组组合到一起才能得到真正的前缀和。</p>
+<p>更本质的，我们注意到每个子数组的前缀和都对应原数组的一个区间和。</p>
+<p>也即是说，如果要推广分段的思路。<strong>S[i]应该保存原数组的一个区间和，区间的右闭端点是i，而左开端点我们记为pre(i)，也即是说这个区间为(pre(i), i]</strong></p>
+<p>显然有preSum(i) = preSum(pre(i)) + S[i] = preSum(pre(pre(i)) + S[pre(i)] + S[i] = .......</p>
+<p>为了方便理解，我们以2.1中的K分段方法为例，对于任意的i，pre(i)是其所在分段的左端点。</p>
+<p>比如N=10，K=2，则第一段是[0,5)，第二段是[5,10)</p>
+<p>则5、6、7、8、9的pre都是4，而0、1、2、3、4的pre都是-1（表示终止）</p>
+<p>preSum(7)=preSum(pre(7)) + S[7] = preSum(4) + S[7] = preSum(-1) + S[4] + S[7] = S[4] + S[7]</p>
+<p><em>注：S[4] = A[0] + A[1] + A[2] + A[3] + A[4], S[7] = A[5] + A[6] + A[7]</em></p>
+<h3 id="23">2.3 明确目标：寻找好的分段方式<a class="headerlink" href="#23" title="Permanent link">#</a></h3>
+<p>我们需要寻找一个好的分段方案，让S[i]代表以i结尾的一段子数组区间的和。我们应当先确定怎样的分段是好的：</p>
+<ul>
+<li>对于任意的i，都存在唯一的分解方案使得preSum(i)可以被分解为若干段区间的和，也即是S中若干项的和</li>
+<li>对于i，pre(i)必须能仅通过i唯一确定，且确定的计算过程要足够快</li>
+<li>对于任意i，i的pre链条应该尽量短，也即是说pre(i)、pre(pre(i))、...应当尽快收敛到-1，这对应的是前缀和计算的时间复杂度</li>
+<li>对于任意i，覆盖A[i]的分段应该尽量少，也即是说A[i]改动时，S的改动应该尽量小，这对应的是修改的时间复杂度</li>
+</ul>
+<h2 id="3">3. 遇事不决，考虑归纳法二分<a class="headerlink" href="#3" title="Permanent link">#</a></h2>
+<p>为了方便讨论，本节我们认为<span><span class="MathJax_Preview">N=2^k</span><script type="math/tex">N=2^k</script></span> ，并且认为下标从1开始(此时pre最终收敛到0，而不是前文中的-1)</p>
+<p>假定我们已经有[1, N / 2]这一半区间的好的分段方式P，我们先不关注P的具体实现，如何通过P构造出[1, N]的好的分段方式呢？</p>
+<p>直接复用已经有的逻辑是好的，具体而言：</p>
+<p>对于[1, N/2]，我们完全复用之前得到的好的分段方式P</p>
+<p>对于[N/2, N)，<span><span class="MathJax_Preview">\forall{i}\in[N/2,N), pre(i) = pre(i-N/2)+N/2</span><script type="math/tex">\forall{i}\in[N/2,N), pre(i) = pre(i-N/2)+N/2</script></span></p>
+<p>对于N这个点，我们留在后面讨论。</p>
+<p>由于[1, N/2]中的每个数字的pre链条最终都会收敛到0，则[N/2, N)中的每个数字的pre链条最终都会收敛到N/2，更重要的是，i + N/2收敛到N/2所需要的pre次数与i收敛到0的次数一样。<strong>也即是说，如果我们能够保证pre(N/2)=0，则i + N/2收敛到0的次数就仅比i收敛到0的次数多1。</strong></p>
+<p>这样的好处在于，[N/2, N]中最长的pre链条只比[0, N/2]中最长的pre链条长1， <strong>因此随着规模的指数增长，pre链条的长度是线性增加的，显然pre链条的长度是O(logn), 也即是说求前缀和的时间复杂度是O(logn)。</strong></p>
+<p>对于我们之前没有讨论的N，因为要为下一次归纳做准备，因此pre(N)也应该为0</p>
+<p>而一旦pre(N)=0，也即是说S[N]=preSum(N)。我们立刻可以注意到，如果对于方案P，A[i]改变会导致S中有n项需要改变。则对于我们归纳得到的更大规模的方案，A[i]改变会导致S中有n+1项被改变（[1,N/2)和[N/2, N)两部分完全互相隔离，不会增加依赖A[i]的S项，因此只多了S[N]这一项要改变，因为S[N]依赖所有的A中的项）。<strong>那么同样， 随着规模的指数增长，A[i]所影响的S中项的数量是线性增加的，因此修改的时间复杂度也是O(logn)。</strong></p>
+<p>最后明确归纳的起点，也即N=1的情况。很自然的，我们会让S[1]=A[1]，此时pre(1)=0，非常的和谐与自然。</p>
+<p><img alt="" src="C:\Users\chAnge\chAnge-blog\img\树状数组.PNG" /></p>
+<p>大家在看网络上的树状数组讲解时，应该都看过上面这张图。此时大家可以直观地看到，规模每扩大一倍，都是将左侧的划分方案“平移”到右侧部分，然后对端点做特殊处理（让其pre直接为0）。这也就是本节所说的二分归纳法的直观体现。</p>
+<h2 id="4-pre">4. pre的计算<a class="headerlink" href="#4-pre" title="Permanent link">#</a></h2>
+<p>在上一节的讨论中，我们明确了树状数组的设计思路。但还有许多问题没有解决，最大的一个问题是：给定i，如何快速计算pre(i)。毕竟上一节pre(i)是靠归纳法从N=1推出来的，并没有给出简单的计算方法。</p>
+<p>为了形象地解释这个问题，我们仍假设N=8，方便参考上面的图。此时所有的下标1-8都可以用三位二进制数表示（除了8，我们先不考虑它，因为它的pre一定是0）</p>
+<p>对于1-7，如果他们的三位二进制表示里左起第一位是0，说明它在“左边的子树”；而如果是1，则说明它在“右边的子树”。由于方案是“平移”得到的，“平移”前后i - pre(i)的值是不变的。因此如果两个数字i和j的第一位分别是0和1，而后面的位完全相同，则它们是平移关系中“对应”的点，因此有i - pre(i) = j - pre(j)。</p>
+<p>也就是说，对于i，它总有一个二进制表示：如果i是2的整数次幂，则pre(i)直接为0；否则，将i的最左侧的1去除，不影响i与pre(i)的差，那我们不断去除i最左侧的1，直到i的二进制表示里只有一个1（也即原始的i中最右侧的1）停止，此时i - pre(i) = i - 0 = i，则这个差值其实就是原始的i中最右侧的1所代表的二进制值。而从i中减去这个差值得到pre(i)就相当于去掉了i的最右侧的1。</p>
+<p>For example : pre(0b011) = 0b010, pre(0b101) = 0b100</p>
+<p>而位运算可以让我们快速获取一个二进制数的最右侧的1所对应的整数（这个函数的正确性本文不做证明）</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//lowbit(6) = lowbit(0b110) = lowbit(0b010) = 2</span>
+<span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>从而我们知道了pre(i)的计算方式：pre(i) = i - lowbit(i)</p>
+<h2 id="5">5.依赖关系的确定<a class="headerlink" href="#5" title="Permanent link">#</a></h2>
+<p>给定i，我们不仅需要能够计算它的pre，还需要能找到A[i]改变时影响的全部S中的项</p>
+<p>回顾一下第三节的思考：N的规模每提升到原来的两倍（比如从4到8），受影响的S项只会增加一个（就是S[8]）。</p>
+<p>更进一步地，我们注意到A[i]所影响的所有S中的项本身也可以形成一个链状结构：比如N=8，A[1]改变会影响“覆盖”了它的S[1]、S[2]、S[4]、S[8]。而S[2]所代表的区间完全被S[4]所代表的区间所覆盖，S[4]所代表的区间完全被S[8]所代表的区间覆盖。对于这种链状关系，我们设**updateNext(i)**表示大于i的第一个被A[i]改变所影响的S项的下标。</p>
+<p>与上一节类似，我们还是从“平移”中获取直观的感受：平移前后，i到updateNext(i)的距离不变。</p>
+<p>因此我们采用与上一节类似的处理，不断去除i的二进制表示最左侧的1，直至i的二进制表示里只有1个1，update(i) - i始终保持不变。而对于值为2的整数数次幂的i，updateNext(i)显然是2i（规模翻倍时引入的）。</p>
+<p>因此我们有 updateNext(i) - i = lowbit(i)， 则updateNext(i) = i + lowbit(i)</p>
+<h2 id="6">6. 前缀和计算、更新和预处理构造<a class="headerlink" href="#6" title="Permanent link">#</a></h2>
+<p>本节将不提供推导，如果无法理解代码，说明你还没有理解前文的思路orz</p>
+<h3 id="61">6.1 前缀和计算<a class="headerlink" href="#61" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">//sum 1 to n, not 0 to n</span>
+<span class="kt">int</span> <span class="nf">preSum</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">pre</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="62">6.2 更新<a class="headerlink" href="#62" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1">//update S when A[i] is assigned val</span>
+<span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">val</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">delta</span><span class="p">;</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="63">6.3 预处理创建树状数组<a class="headerlink" href="#63" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">build</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../../design%20pattern/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%B3%A8%E5%86%8C%E5%AE%9E%E7%8E%B0/" title="工厂模式的注册实现" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                工厂模式的注册实现
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

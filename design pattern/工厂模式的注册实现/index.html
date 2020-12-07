@@ -1,0 +1,723 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.12">
+    
+    
+      
+        <title>工厂模式的注册实现 - chAnge-blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4dd2dd8d.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.6a5ad368.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2094f3">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=:300,400,400i,700%7CFira+Code&display=fallback">
+        <style>body,input{font-family:"",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Fira Code",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="chAnge-blog" class="md-header-nav__button md-logo" aria-label="chAnge-blog">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            chAnge-blog
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              工厂模式的注册实现
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="chAnge-blog" class="md-nav__button md-logo" aria-label="chAnge-blog">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    chAnge-blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      C++ Program Design 2020
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="C++ Program Design 2020" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        C++ Program Design 2020
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../C%2B%2B%20Program%20Design%202020/%E6%96%B0%E6%89%8B%E4%B8%8A%E8%B7%AF/" title="新手上路" class="md-nav__link">
+      新手上路
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      cpp
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="cpp" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        cpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/%E6%B5%85%E8%B0%88C%2B%2B%E4%BC%A0%E5%8F%82%E7%9A%84%E6%95%88%E7%8E%87%E9%97%AE%E9%A2%98/" title="浅谈C++传参的效率问题" class="md-nav__link">
+      浅谈C++传参的效率问题
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/%E6%9C%AA%E4%BD%BF%E7%94%A8explicit%E5%85%B3%E9%94%AE%E5%AD%97%E6%89%80%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%80%E5%88%99/" title="未使用explicit关键字所导致的问题一则" class="md-nav__link">
+      未使用explicit关键字所导致的问题一则
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      design pattern
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="design pattern" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        design pattern
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../%E3%80%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%85%B6%E4%B8%80%EF%BC%9A%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" title="《设计模式》其一：策略模式" class="md-nav__link">
+      《设计模式》其一：策略模式
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        工厂模式的注册实现
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" title="工厂模式的注册实现" class="md-nav__link md-nav__link--active">
+      工厂模式的注册实现
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    没那么完美：散落各处的硬编码
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    注册器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    一点小问题：导入模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    C++实现
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Data Structure & Algorithm
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Data Structure & Algorithm" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
+        Data Structure & Algorithm
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Data%20Structure%20%26%20Algorithm/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" title="树状数组" class="md-nav__link">
+      树状数组
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    场景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    没那么完美：散落各处的硬编码
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    注册器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    一点小问题：导入模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    C++实现
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="_1">工厂模式的注册实现<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<h2 id="_2">场景<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>最近python项目里遇到了这样的需求</p>
+<div class="highlight"><pre><span></span><code>graph TD
+A[&quot;User Input Arg&quot;]--&gt;B[&quot;A_class_factory&quot;]
+A--&gt;C[&quot;B_class_factory&quot;]
+B--&gt;D[&quot;A_subclass&quot;]
+C--&gt;E[&quot;B_subclass&quot;]
+D--&gt;H[&quot;C_aggregation&quot;]
+E--&gt;H
+H--&gt;F
+G[&quot;User Input Data&quot;]--&gt;F
+A-.-&gt;G
+</code></pre></div>
+
+<p>有很多种不同的User Input Data，不同格式的Data需要不同的处理逻辑。用户通过输入的命令行参数<code>User Input Arg</code>（后简称arg）来告知模块内部应该采用哪种处理逻辑。</p>
+<p>处理数据的class即为上图的<code>C_aggregation</code>，但实际处理逻辑分为多个子逻辑，我们用抽象类<code>A_class</code>和<code>B_class</code>抽象两个子逻辑接口，然后对于每一种arg，我们编写相应的子类表示具体逻辑。在运行时，我们通过arg获取对应的子类实例作为“组件”拼到<code>C_aggregation</code>中，而通过arg获取具体子类的实例正是工厂模式的常用场景，大概的代码如下所示。</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">C_aggregation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A_class_factory</span><span class="o">.</span><span class="n">getA</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">B_class_factory</span><span class="o">.</span><span class="n">getB</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+</code></pre></div>
+
+<h2 id="_3">没那么完美：散落各处的硬编码<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>上面的场景看上去其实很简单，但每当开发者发现有一种新的数据格式需要被处理时，他需要修改代码的多个部分</p>
+<ol>
+<li>
+<p>首先，编写新的A_subclass和B_subclass</p>
+</li>
+<li>
+<p>为这种数据选定一个新的arg</p>
+</li>
+<li>
+<p>在A_class_factory和B_class_factory中添加新的if分支（并且还要import刚刚编写好的新子类）</p>
+</li>
+<li>
+<p>将新arg添加到你的python主脚本命令行参数的choices列表中</p>
+</li>
+</ol>
+<p>上面四点里，第一点和第二点是无论如何都无法绕过的，但后面两点显得比较繁琐，涉及到的文件也比较多。虽然可以在doc for developer里面把添加新数据格式所需要的全部流程列好，但这种“流程”麻烦且难以记忆，我们有必要将开发“流程”简洁化。</p>
+<p>本场景中，导致开发、维护场景繁琐的根本在于硬编码。所谓硬编码，简单来讲就是把各种“数据”写死在代码里。一个最简单的情形是代码里需要一个常量表示圆周率，暂时选定了3.14，然后把这个3.14写的到处都是，导致之后如果想要更精确的3.14159就要把所有3.14的出现都改一遍，带来极大的维护困难，并且每当有新的代码需要用到这个常量时，需要开发者始终记得当前使用的数值到底是3.14还是3.14159还是其他的什么值。</p>
+<p>总计一下，硬编码的问题主要是：</p>
+<ul>
+<li>带来极大的维护困难（很有可能涉及多处甚至多文件维护）</li>
+<li>给开发者带来了额外的记忆成本</li>
+</ul>
+<p>而在我们的场景中，硬编码的是“arg到子类的映射关系”。它可能以一堆if语句的形式存在，但它的本质是映射。而这个映射的维护是相对独立于子类本身的，开发者在编写子类时要去其他的多个源文件做出修改，我们希望把开发者从这个负担中解放出来。</p>
+<h2 id="_4">注册器<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<p>于是我们选择了注册器模式。</p>
+<p>这个实现的核心思路如下：在定义某一种新的子类时，为其添加装饰器，该装饰器不改变类的行为，单纯将其“注册”到某个“词典”里，词典是arg-&gt;class的，这样工厂类中就不需要写大量if分支，只需要用arg作为key得到对应的class即可，choices也无需手写而采用这个词典的keys即可。</p>
+<p>我们来看一下代码的具体实现</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Register</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registry_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">registry_name</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value of a Registry must be a callable!</span><span class="se">\n</span><span class="s2">Value: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Key </span><span class="si">%s</span><span class="s2"> already in registry </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="n">value</span>
+
+        <span class="c1"># @reg.register(&#39;alias&#39;)</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;key&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Registers</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Registries is not intended to be instantiated&quot;</span><span class="p">)</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Register</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在上面的实现里，Registers掌管所有种类的Register实例，每一种Register都可以通过register接口将arg-&gt;class的映射注册到自己的内部_dict里，具体使用方式类似下面的代码</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Registers</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;New_A&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">New_A_subclass</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;do something&quot;&quot;&quot;</span>
+
+
+<span class="sd">&quot;&quot;&quot;another python file&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">A_class_factory</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_A</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Registers</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">arg</span><span class="p">]()</span>
+
+<span class="sd">&quot;&quot;&quot;another python file&quot;&quot;&quot;</span>
+<span class="n">choices</span> <span class="o">=</span> <span class="n">Registers</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</code></pre></div>
+
+<p>通过这种方式，开发者只需要在编写的子类前加上“注册语句”，就能让一切按照自己预想的方式工作。开发流程被局限在了子类所在的文件中，无需去其他的源文件中做出相应的修改，大大减少了开发负担。</p>
+<h2 id="_5">一点小问题：导入模块<a class="headerlink" href="#_5" title="Permanent link">#</a></h2>
+<p>当然，由于python的机制，我们需要import使用了注册机制的模块，才能使得一个类真正地被注册。</p>
+<p>因此，一个依赖“注册结果”的模块（比如工厂类所在的模块，工厂类需要注册结果来生产arg对应的类），必须要import所有我们所需要的注册的类所在的模块，而这不又是一种硬编码吗（import的模块列表依然需要手动维护）</p>
+<p>好在，python有importlib，可以动态地import模块。因此我们可以为Register维护需要注册的模块路径，封装一个函数<code>import_register_modules()</code>，这个函数使用importlib动态导入你指定的模块路径的集合。在代码入口处调用<code>import_register_modules</code>。这样就把到处都可能存在的硬编码集成到了import_register_modules里，每当添加了新的子类，只需要修改这一处就能解决import问题。</p>
+<p>使用了注册机制后，开发者添加新子类要做的事情是：</p>
+<ol>
+<li>首先，编写新的A_subclass和B_subclass</li>
+<li>为这种数据选定一个新的arg</li>
+<li>给新编写的子类添加“注册语句”</li>
+<li>修改import_register_modules</li>
+</ol>
+<p>虽然看上去依然是四点，但减轻的负担谁用谁知道.jpg</p>
+<h2 id="c">C++实现<a class="headerlink" href="#c" title="Permanent link">#</a></h2>
+<p>毕竟我是一个C++ boy，尽管业务场景里要求的语言是python，但还是也要研究一下C++中该怎么实现这一模式。</p>
+<p>python实现中，我们直接建立了arg到类名的映射。而在C++中我们不能简单地这么做，归根结底，原因在于python中的类名其实是一个callable，可以调用它来创建对应的对象实例，而C++中的类名则没有这么好的事情了（</p>
+<p>那么，首先我们要解决的子问题就是如何通过类名获取一个callable可以创建对象。这个可以通过模板解决</p>
+<p>而Register类中维护arg到Base*()的映射</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Register</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*</span><span class="p">()</span><span class="o">&gt;&gt;&amp;</span> <span class="n">getDict</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*</span><span class="p">()</span><span class="o">&gt;&gt;</span> <span class="n">_dict</span><span class="p">;</span> 
+       <span class="k">return</span> <span class="n">_dict</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">public</span><span class="o">:</span>
+    <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*</span><span class="p">()</span><span class="o">&gt;&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">getDict</span><span class="p">()[</span><span class="n">str</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">keys</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">transform</span><span class="p">(</span><span class="n">getDict</span><span class="p">().</span><span class="n">begin</span><span class="p">(),</span> <span class="n">getDict</span><span class="p">().</span><span class="n">end</span><span class="p">(),</span> <span class="n">back_inserter</span><span class="p">(</span><span class="n">result</span><span class="p">),</span>
+                       <span class="p">[](</span><span class="k">auto</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">_pair</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span> <span class="n">_pair</span><span class="p">.</span><span class="n">first</span><span class="p">;});</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="k">register</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">getDict</span><span class="p">().</span><span class="n">emplace</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[]{</span><span class="k">return</span> <span class="k">new</span> <span class="n">T</span><span class="p">;});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>为了让注册语句简洁，不要过多暴露Register的实现细节，我们使用宏</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#define REGISTER_BASE(T, key) Register::register&lt;T&gt;(key);</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../%E3%80%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%85%B6%E4%B8%80%EF%BC%9A%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" title="《设计模式》其一：策略模式" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                《设计模式》其一：策略模式
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../../Data%20Structure%20%26%20Algorithm/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" title="树状数组" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                树状数组
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
