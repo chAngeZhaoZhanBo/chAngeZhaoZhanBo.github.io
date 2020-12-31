@@ -15,7 +15,7 @@
     
     
       
-        <title>《设计模式》其一：策略模式 - chAnge-blog</title>
+        <title>chAnge的2020年度报告 - chAnge-blog</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#change2020" class="md-skip">
           Skip to content
         </a>
       
@@ -86,7 +86,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              《设计模式》其一：策略模式
+              chAnge的2020年度报告
             
           </span>
         </div>
@@ -258,12 +258,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
       design pattern
@@ -281,20 +279,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="《设计模式》其一：策略模式" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../design%20pattern/%E3%80%8A%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%85%B6%E4%B8%80%EF%BC%9A%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" title="《设计模式》其一：策略模式" class="md-nav__link">
       《设计模式》其一：策略模式
     </a>
-    
   </li>
 
         
@@ -304,7 +293,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%B3%A8%E5%86%8C%E5%AE%9E%E7%8E%B0/" title="工厂模式的注册实现" class="md-nav__link">
+    <a href="../../design%20pattern/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%B3%A8%E5%86%8C%E5%AE%9E%E7%8E%B0/" title="工厂模式的注册实现" class="md-nav__link">
       工厂模式的注册实现
     </a>
   </li>
@@ -357,10 +346,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       生活
@@ -378,11 +369,20 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../%E7%94%9F%E6%B4%BB/chAnge%E7%9A%842020%E5%B9%B4%E5%BA%A6%E6%8A%A5%E5%91%8A/" title="chAnge的2020年度报告" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+    <a href="./" title="chAnge的2020年度报告" class="md-nav__link md-nav__link--active">
       chAnge的2020年度报告
     </a>
+    
   </li>
 
         
@@ -422,37 +422,26 @@
                   
                 
                 
-                <h1 id="_1">《设计模式》其一：策略模式<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
-<p>当提到OOP时，你会想到什么呢？大多数人想到的是抽象、封装、多态与继承。</p>
-<p>掌握了这些OO基础，你从理论上来讲就能写出不错的OO系统了。然而，正如“即便你把C++抑或是其它编程语言的语法层面的东西学习得差不多了，你也很难写出良好的、可维护的、高效率的代码，而还是要去了解各种最佳实践”一样，在学习OO的过程中，也有必要了解设计模式。设计模式是经过总结后的OO系统设计的隐含经验，使用它们可以帮助你更好地构建OO系统，同时降低你与合作者的沟通成本。</p>
-<p>任何的学习都最好不要生搬硬套、死记硬背，设计模式也是一样。《设计模式》中涉及了非常多的设计模式，简单地记忆它们，不出几天可能就会忘个精光，也可能会混淆不同模式的使用场景。因此，有必要梳理不同的设计模式根本的出发点，他们解决了那些需要解决的问题。这样即便你忘记了这个设计模式的名字，你的思想也已经变成了它的形状了（雾）</p>
-<p>本系列用于梳理和记录我在学习《设计模式》时的一些思考，欢迎大家批评与指正orz本文将谈谈第一个设计模式——策略模式</p>
-<hr />
-<p>考虑一个基类Base和它的一族子类。Base中有一个成员函数f，那么f可能涉及到哪些OO的基础元素呢？都有哪些情况呢？</p>
-<ul>
-<li>所有子类全部应该有相同的行为f，我们将这个行为提取出来，放在基类Base中作为成员函数，供子类继承，以达成代码复用的目的。（如果你确信从设计的根本逻辑上，所有子类都应该有相同的行为f，也即是说后续加入的子类也均遵循行为f，则可以把f设为final，防止子类覆盖f）</li>
-<li>所有的子类全部有相似的行为f，它们可以有相同的对外接口，但内部实现却**各不相同**。此时你可能希望利用多态，基类弄一个虚函数。如果仍然存在一个“默认行为”的话，可以在基类中弄一个默认的实现；否则可以把f在基类中搞成纯虚函数。</li>
-</ul>
-<p>可能你注意到了我上文中加黑的“各不相同”，其实这并不是必要的。但如果你不能保证所有的子类都对f有不同的实现，你可能就需要“策略模式”了~</p>
-<p>设想一下下面的情景：Base有高达114514个子类，但这些子类对于f的实现只有4种，每种实现所占的子类数量都超过25000个。这意味着什么呢？意味着对于同样的一种实现，你需要重复编写它25000次。你可能会说，这算什么，你当Ctrl +C/V是闹着玩的吗？那再设想一下，之后你需要对某一种实现做出修改，那你每次修改都要粘贴25000次，那还不如直接被先辈雷普了呢（</p>
-<p>归根结底，这个问题的原因很简单，你没有代码复用啊。从OO的角度来说，不同子类对f的实现，即便内容完全相同，但在OO体系里，仍然被视为“独立的、不同的实现”。</p>
-<p>所以你要做的事情也很简单，寻找一种代码复用的方式，把f的每一种实现都封装成一个可复用的组件。</p>
-<p>所以我们正式引出策略模式：定义算法族，分别封装起来，使他们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
-<p>C++程序员可能在想，这个简单啊，最基本的代码复用方式不就是攒个新函数出来吗？我对三种实现攒三个新函数，然后把函数指针按需传给不同的子类不就好了？</p>
-<p>但是不是啥编程语言都能直接操作函数指针的，何况《设计模式》这本书是针对java写的，这太不OO了，I‘m angry！</p>
-<p>其实我们有更OO的实现方式：</p>
-<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">FBehavior</span> <span class="p">{</span>  
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">f</span><span class="p">();</span>
-<span class="p">};</span>
-
-<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Base</span> <span class="p">{</span>  
-    <span class="n">FBehavior</span> <span class="n">fb</span><span class="p">;</span>  
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performF</span><span class="p">()</span> <span class="p">{</span>    <span class="n">fb</span><span class="p">.</span><span class="na">f</span><span class="p">();</span>   <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div>
-
-<p>对于不同的f的实现，我们只需要implement FBehavior弄出不同的class就好了。在Base的子类的构造函数中，我们按照需要构造不同的实现了FBehavior的class，即可达到策略模式的目的。</p>
-<p>策略模式是如此的自然，因此被《设计模式》放在最开始讲解。思考它的出现原因，可以让我们对OO和常见编程思想有更深刻的理解。</p>
+                <h1 id="change2020">chAnge的2020年度报告<a class="headerlink" href="#change2020" title="Permanent link">#</a></h1>
+<p>想了想，我好像从来没有写过年度总结，那就写一下吧，反正今晚也没什么事（大雾）</p>
+<p>从2015年开始算起的话，我的每一年都过得差不多，懒散而随意。今年则稍稍有点不一样，感觉自己有了一些变化。</p>
+<p>如果有人在15年就认识我了，可能对我的印象更多是接近一个“很丧的阿宅”形象。那时的我收到了一点知乎前·显学的影响，整天觉得自己是个five。他们是不是真心觉得自己five，我不知道，但那时的我确实是真心的。我懒散而随意的生活节奏就是那时养成的，“如果你干脆不去做，那么就不能说你一定是做不好；而如果你去做了，那你就要承担【确实】没做好的风险“。拜这种人生理念所赐，无论从哪一个角度出发，我大学几乎没有任何称得上”成就“的事情。唯一做的不错的事情可能是《超级马里奥 奥德赛》达成了999月亮吧（笑）</p>
+<p>坦白来讲，我一直是想改变这个状况的。遗憾的是，直到大四前，我都没有走出来。大四时的我虽然有了不少改变，在社交等方面取得了一些新进展。但对于我自己而言，我无法区分是我真的改变了，还仅仅是因为大四过于轻松导致我即便懒散也可以心安理得呢。</p>
+<p>很快就到了2020年，2020年确实让我有了很多根本性的变化，最大的变化大概就是我对自己的认知态度吧。现在的我依然懒散而随意，但我喜欢这样的自己，我觉得这样就很好。而且，这并不是长期自卑后逐渐被动地接受现实的结果，而是我确实觉得自己有了变化，现在的我让自己很满意。</p>
+<p>这种自我认知的变化自然不是天上掉下来的，也不是我嗷的一声就想通了。归根结底，还是2020年发生了很多事，让我对自己的判断和认知有了变化，往好的方面改变（</p>
+<p>首先是情感方面。尽管我跟丁丁同学是2019年在一起的，但毕竟当时已经接近年末，所以迄今为止的恋情主体还是2020年。在很长的一段时间里我都觉得自己无法拥有恋情，可能以后搞不好就相亲走起了，但目前来看确实只是杞人忧天。”静待有缘人“虽然有点鸡汤，但确实有一定的道理，尤其在你事实上还只是个刚刚成年不久的一般通过青年的时候，大可不必着急给自己下定义，毕竟很多事情虽然是客观的、由社会决定的，但恋爱这东西就只跟那位ta有关呀。</p>
+<p>这一年我跟丁丁同学相处的都很愉快，也几乎没有吵过架。我觉得这种相互陪伴相互爱恋的感觉真的好好呀，希望之后也能一直走下去。干就完事了，奥力给（确信）二人幸终（</p>
+<p>然后是事业（雾）方面。做了研究生后，事业除了学业以外有了一些其他因素。尽管我的学业方面还是乏善可陈，但工作方面却给了我不少信心。本科的时候，因为成绩属实太差，课外也没有研究任何技术（时间都用来躺尸看动漫儿了），所以那时的我完全没有任何勇气去找实习，再加上那时目标不明确，随波逐流看了一年的炼丹，读了一些论文也提不起兴趣，但感觉身边人均都会炼丹，所以就更不敢去实习了。</p>
+<p>研一上学期的时候，我就觉得这样不行，想研究生期间无论如何也得实习一下了，不然这工作可咋找，于是就在那学期把课基本都上完了，然后今年上半年就投了我人生的第一份码农实习。</p>
+<p>在这里要非常感谢wenda哥捞我一手，内推了我一把，以及hyw同学给那时啥也不懂的我讲了一些面试和工作的信息。尽管准备方向出了一些偏差（我以为会考一些C++的知识，所以主要精力花在复习C++了，结果并没有考太多语言相关），面试途中也出了一些状况（比如一面上来让我写dijkstra，我因为完全没有复习图算法，写的非常拉跨），但最后还是通过了所有面试，拿到了第一份实习。可以说这份实习对我意义重大，它让我感到”原来我也没有那么差呀“。然后就在字节AML接触到了很多有趣的东西和有趣的人（尽管远程实习没有见过面QAQ），也姑且做出了一点自己微小的贡献，虽然6月因为身体等原因离职了，但那段时光我收获确实很大。建立起自信后，9月份身体恢复的差不多了，也回到学校了，就在R姐的帮助下又去了旷视实习，面试很顺利，进一步加强了我的自信orz。在这边接触到了很棒的同事，也是第一次感受onsite实习的感觉吧，还是很愉快的（尽管因为我完全不懂detection导致我大多数时候显得很蠢orz），也学到了很多，最近要去和大佬们一起做一个文件层的中间件？前端？我也不知道该怎么叫的东西，还是很激动的（没错，我就是在detection组做和detection没什么直接关系的工作的的”工程实习生“</p>
+<p>人际关系方面，这一年的变化也是翻天覆地的。我越来越能感受到与人”连接“的快乐了，可能是上半年家里蹲太厉害才让我认识到珍贵了吧（大雾）</p>
+<p>六月份的时候，因为身体原因和工作原因心情不好，离职后想去散心。于是就买了机票直奔上海，去投奔XXY和CC。在那边和他们高强度桌游、密室、麻将、街机、逛街，确实很爽（果然宅宅还是跟宅宅在一起最爽了！</p>
+<p>十一假期的时候，我组了一个密室逃脱局，玩的很开心，当天晚上我们去五道口吃韩料，大家一边吹逼一边吃东西一边喝着酒，当时我突然我觉得我真的好开心，仿佛有一种极乐的感觉，”啊，这样真好啊，有朋友真好啊“，大概就是这种感觉吧。（然后这之后不久一起吃饭喝酒的某两位好朋友就在一起了orz</p>
+<p>因为加了bangumi的码农群，我认识了mwish先辈。尽管mwish先辈总是黑p我和要杀了我（大雾），但mwish先辈还是教了我很多，也拉我进了有更多先辈的群。希望mwish先辈新的一年可以达成愿望，毁灭世界。</p>
+<p>加了tison的群也让我认识了很多有趣的人，大家技术话题、情感话题、投资话题（雾）无所不谈。我之后又拉了个北京区的小群用来组局，组了好多次局，桌游、密室逃脱、ktv都有，看来我果然有组局的才能（确信）也见到了zyc、reiko、yewen、铃等大佬，以后还是要向大家多多学习（以及一起多多玩耍！）</p>
+<p>爱好方面，我现在大概是确定了”动漫儿、（电子）游戏为主体，多种其余爱好共同发展“的路线。今年说来惭愧，动漫儿没有看很多新的，bgm的格子也没怎么点，倒是重新看了很多之前看过的动画，《日常》呀、《kill la kill》呀、《三月的狮子》呀，看动画最开心啦，2021年一月有好多想看的，希望能恢复到以前新动画老动画两手都要抓两手都要硬的状态！游戏的话，今年没有玩很多，空洞骑士、逆转裁判、动物之森都很棒，八方旅人和纸片马里奥我还没有玩完（此外我还有很多买了但没玩完甚至没玩的游戏，要加大力度了orz）其他爱好在2020年也开花了，桌游局我约了好多局，果然大家一边玩耍一边吹逼别有一番风味呀；密室逃脱也不错，加大力度加大力度。</p>
+<p>以上就是2020年的流水账碎碎念了。新的一年大家都要开心呀，如果想要玩耍了，请务必来找我一起玩！</p>
+<p>（以及有没有那种想一起读Ray代码的朋友，可以一起交流（大雾</p>
                 
               
               
@@ -471,7 +460,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../cpp/%E6%9C%AA%E4%BD%BF%E7%94%A8explicit%E5%85%B3%E9%94%AE%E5%AD%97%E6%89%80%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%80%E5%88%99/" title="未使用explicit关键字所导致的问题一则" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../Data%20Structure%20%26%20Algorithm/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" title="树状数组" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -480,25 +469,11 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                未使用explicit关键字所导致的问题一则
+                树状数组
               </div>
             </div>
           </a>
         
-        
-          <a href="../%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%B3%A8%E5%86%8C%E5%AE%9E%E7%8E%B0/" title="工厂模式的注册实现" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                工厂模式的注册实现
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
         
       </nav>
     </div>
